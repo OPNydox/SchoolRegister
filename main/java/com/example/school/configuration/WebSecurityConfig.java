@@ -1,4 +1,5 @@
 package com.example.school.configuration;
+import com.example.school.authentication.MyUserDetailsService;
 import com.example.school.utilities.PasswordManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -20,24 +22,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @Order(SecurityProperties.BASIC_AUTH_ORDER)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	
 	@Autowired
-	private UserDetailsService userDetailsService;
+	private MyUserDetailsService userDetailsService;
 	
-	@Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authProvider());
-    }
-	
-	 
 	@Bean
-	public DaoAuthenticationProvider authProvider() {
-	    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-	    authProvider.setUserDetailsService(userDetailsService);
-	    //authProvider.setPasswordEncoder();
-	    return authProvider;
+	public DaoAuthenticationProvider authenticationProvider() {
+		DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+		provider.setUserDetailsService(userDetailsService);
+		provider.setPasswordEncoder(new BCryptPasswordEncoder(11));
+		return provider;
 	}
 	
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) {
+		auth.authenticationProvider(authenticationProvider());
+	}
 
     @Override
     protected void configure (HttpSecurity http) throws Exception{
@@ -63,3 +62,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	    
 
 }
+
+
+/*@Autowired
+private UserDetailsService userDetailsService;
+
+@Override
+protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.authenticationProvider(authProvider());
+}
+
+ 
+@Bean
+public DaoAuthenticationProvider authProvider() {
+    DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+    authProvider.setUserDetailsService(userDetailsService);
+    authProvider.setPasswordEncoder();
+    return authProvider;
+}*/
