@@ -15,17 +15,10 @@ import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name = "teachers")
-public class Teacher {
+public class Teacher extends User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long teacherId;
-	
-	private String name;
-	
-	private String email;
-	
-	@Column(length = 60)
-	private String password;
 	
 	private double salary;
 	
@@ -38,10 +31,7 @@ public class Teacher {
 	
 
 	public Teacher(String name, String email, String password, double salary) {
-		super();
-		setName(name);
-		setEmail(email);
-		setPassword(password);
+		super(name, email, password, false);
 		setSalary(salary);
 		setCourses(new ArrayList<Course>());
 	}
@@ -56,14 +46,6 @@ public class Teacher {
 
 	public void setTeacherId(long teacherId) {
 		this.teacherId = teacherId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public double getSalary() {
@@ -81,23 +63,4 @@ public class Teacher {
 	public void setCourses(List<Course> courses) {
 		this.courses = courses;
 	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-
-	
 }

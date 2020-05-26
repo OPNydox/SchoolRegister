@@ -17,18 +17,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "students")
-public class Student implements Serializable {
+public class Student extends User implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long studentId;
-	
-	private String name;
-	
-	private String email;
-	
-	@Column(length = 60)
-	private String password;
 	
 	@OneToMany(mappedBy = "student")
 	private List<Grade> grades;
@@ -46,10 +39,7 @@ public class Student implements Serializable {
 	
 
 	public Student(String name, String email, String password) {
-		super();
-		setName(name);
-		setEmail(email);
-		setPassword(password);
+		super(name, email, password, true);
 		setGrades(new ArrayList<Grade>());
 		setPresences(new ArrayList<Presence>());
 		setCourses(new ArrayList<Course>());
@@ -65,14 +55,6 @@ public class Student implements Serializable {
 
 	public void setStudentId(long studentId) {
 		this.studentId = studentId;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public List<Grade> getGrades() {
@@ -98,24 +80,4 @@ public class Student implements Serializable {
 	public void setPresences(List<Presence> presences) {
 		this.presences = presences;
 	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	
-	
-	
 }
