@@ -6,19 +6,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.school.database.entities.Student;
+import com.example.school.database.entities.Teacher;
 import com.example.school.database.entities.User;
+import com.example.school.exceptions.UserNotFoundInDatabase;
 import com.example.school.repositories.StudentRepository;
+import com.example.school.repositories.TeacherRepository;
 import com.example.school.repositories.UserRepository;
 
 @Component
 public class UserRepositoryImpl implements UserRepository<User>{
 	@Autowired
 	private StudentRepository studentRepo;
+	
+	@Autowired
+	private TeacherRepository teacherRepo;
 
 	@Override
 	public <S extends User> S save(S entity) {
-		// TODO Auto-generated method stub
-		return null;
+		if (entity.isStudent()) {
+			Student student = studentRepo.save((Student) entity);
+			return (S) student;
+		} else {
+			Teacher teacher = teacherRepo.save((Teacher) entity);
+			return (S) teacher;
+		}
 	}
 
 	@Override
@@ -83,9 +94,14 @@ public class UserRepositoryImpl implements UserRepository<User>{
 
 	@Override
 	public User findByEmail(String email) {
-		Object result = studentRepo.findById((long) 1);
-		Student res = (Student) result;
-		return res;
+		System.out.println("searching for user....");
+		Optional<Student> result = studentRepo.findById((long) 1);
+		if (result.isPresent()) {
+			Student stud = result.get();
+			return stud;
+		} else {
+			throw new UserNotFoundInDatabase("No such user in database with the email " + email);
+		}
 	}
 
 	

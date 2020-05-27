@@ -35,6 +35,8 @@ public class TestController {
 	
 	@RequestMapping(value ="/studtest")
 	public Test studentTesting() {
+		Student student = new Student("Ivan Ivanov", "iivanov@abv.bg", "password");
+		uRepo.save(student);
 		User u = uRepo.findByEmail("iivanov@abv.bg");
 		System.out.println("The user is called " + u.getName());
 		return new Test();

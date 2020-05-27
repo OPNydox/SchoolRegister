@@ -2,26 +2,42 @@ package com.example.school.authentication;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.example.school.database.entities.AuthGroup;
 import com.example.school.database.entities.Student;
+import com.example.school.database.entities.User;
 
 public class MyUserPrincipal implements UserDetails {
 	
-	private Student user;
+	private User user;
 	
-	public MyUserPrincipal(Student student) {
+	private List<AuthGroup> authGroups;
+	
+	public MyUserPrincipal(User user, List<AuthGroup> authGroups) {
 		super();
-		this.user = student;
+		this.user = user;
+		this.authGroups = authGroups;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		Collections.singleton(new SimpleGrantedAuthority("USER"));
-		return null;
+		if (this.authGroups == null) {
+			return Collections.emptySet();
+		}
+		
+		Set<SimpleGrantedAuthority> grantedAuthorities = new HashSet();
+		authGroups.forEach(group -> {
+			grantedAuthorities.add(new SimpleGrantedAuthority(group.getAuthGroup()));
+		});
+		
+		return grantedAuthorities;
 	}
 
 	@Override
