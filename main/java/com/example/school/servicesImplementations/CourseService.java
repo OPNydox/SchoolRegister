@@ -20,6 +20,6 @@ public class CourseService {
 		} else {
 			System.out.println("hurah");
 		}
-		repo.save(new Course("Icoznanie", 12));
+		repo.save(new Course("Icoznanie", "10A", 12));
 	}
 }

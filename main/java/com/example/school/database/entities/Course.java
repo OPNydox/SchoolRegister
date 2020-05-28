@@ -18,6 +18,8 @@ public class Course {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long classId;
 	
+	private String courseName;
+	
 	private String subject;
 	
 	private int honorarium;
@@ -35,13 +37,14 @@ public class Course {
 		super();
 	}
 
-	public Course(String subject, int honorarium) {
+	public Course(String subject, String courseName, int honorarium) {
 		super();
-		setSubject(subject);
-		setHonorarium(honorarium);
-		setStudents(new ArrayList<Student>());
-		setTeachers(new ArrayList<Teacher>());
-		setGrades(new ArrayList<Grade>());
+		this.setSubject(subject);
+		this.setCourseName(courseName);
+		this.setHonorarium(honorarium);
+		this.setStudents(new ArrayList<Student>());
+		this.setTeachers(new ArrayList<Teacher>());
+		this.setGrades(new ArrayList<Grade>());
 	}
 
 	public long getClassId() {
@@ -91,4 +94,13 @@ public class Course {
 	public void setGrades(ArrayList<Grade> grades) {
 		this.grades = grades;
 	}
+
+	public String getCourseName() {
+		return courseName;
+	}
+
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
+	}
+	
 }
