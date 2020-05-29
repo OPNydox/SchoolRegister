@@ -3,6 +3,9 @@ package com.example.school.utilities;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.example.school.exceptions.ValueException;
+import com.example.school.exceptions.ValueNotFoundException;
+
 public class Verificator {
 	private static final String EMAIL_REGEX = "@.*?\\.";
 	private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
@@ -14,5 +17,12 @@ public class Verificator {
 
 		Matcher matcher = EMAIL_PATTERN.matcher(email);
 		return matcher.matches();
+	}
+	
+	public static void isEmpty(Object checkedObject, String errMessage) throws ValueException {
+		if (checkedObject == null) {
+			throw new ValueNotFoundException(errMessage);
+		}
+		return;
 	}
 }

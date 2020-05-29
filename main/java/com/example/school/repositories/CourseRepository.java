@@ -11,4 +11,6 @@ import com.example.school.database.entities.Course;
 public interface CourseRepository extends CrudRepository<Course, Long> {
 
 	Course save(Course entity);
+	
+	Course findByName(String name);
 }

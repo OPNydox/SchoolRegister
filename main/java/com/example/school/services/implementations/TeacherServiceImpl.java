@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.example.school.database.entities.Course;
 import com.example.school.database.entities.Teacher;
 import com.example.school.exceptions.EmailNotValidExcepiton;
+import com.example.school.exceptions.EntityException;
 import com.example.school.exceptions.ValueException;
 import com.example.school.exceptions.ValueNotFoundException;
 import com.example.school.repositories.CourseRepository;
@@ -36,15 +37,18 @@ public class TeacherServiceImpl implements ITeacherService {
 
 	@Override
 	public Teacher findTeacherByEmail(String email) throws ValueException {
-		if (email == null) {
-			throw new ValueNotFoundException("Teacher search email is empty");
+		try {
+			Verificator.isEmpty(email, "Teacher search email is empty");
+		} catch (ValueException e) {
+			System.out.println(e.getMessage());
+			return null;
 		}
 		
 		boolean isEmailValid = Verificator.verifyEmail(email);
 		
 		if (isEmailValid) {
 			throw new EmailNotValidExcepiton("The email: " + email + " is not a valid email");
-		}
+		} 
 		
 		Teacher result = teacherRepository.findByEmail(email);
 		return result;
@@ -52,14 +56,36 @@ public class TeacherServiceImpl implements ITeacherService {
 
 	@Override
 	public boolean addTeacherToCourse(Teacher teacher, Course course) {
-		// TODO Auto-generated method stub
-		return false;
+		try {
+			Verificator.isEmpty(teacher, "Teacher object is null");
+			Verificator.isEmpty(course, "Course obect is empty");
+		} catch (ValueException e){
+			System.out.println(e.getMessage());
+			return false;
+		}
+		
+		teacher.getCourses().add(course);
+		course.getTeachers().add(teacher);
+		return true;
 	}
 
 	@Override
-	public boolean addTeacherToCourse(String teacherEmail, String courseName) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean addTeacherToCourse(String teacherEmail, String courseName)  {
+		Teacher teacher;
+		Course course;
+		try {
+			Verificator.isEmpty(teacherEmail, "The teacher email string is empty");
+			Verificator.isEmpty(courseName, "Course name string is empty");
+			teacher = teacherRepository.findByEmail(teacherEmail);
+			Verificator.isEmpty(teacher, "Could not find teacher with email " + teacherEmail);
+			course = courseRepository.findByName(courseName);
+		} catch (ValueException e) {
+			System.out.println(e.getMessage());
+			return false;
+		}
+		
+		addTeacherToCourse(teacher, course);
+		return true;
 	}
 
 }
