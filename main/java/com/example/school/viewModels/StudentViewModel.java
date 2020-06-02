@@ -1,13 +1,13 @@
 package com.example.school.viewModels;
 
-public class StudentView {
+public class StudentViewModel {
 	private String name;
 	
 	private String password;
 	
-	public StudentView() {}
+	public StudentViewModel() {}
 
-	public StudentView(String name, String password) {
+	public StudentViewModel(String name, String password) {
 		super();
 		this.name = name;
 		this.password = password;

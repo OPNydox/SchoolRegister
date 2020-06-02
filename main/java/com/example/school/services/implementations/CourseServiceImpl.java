@@ -8,6 +8,7 @@ import com.example.school.exceptions.ValueException;
 import com.example.school.repositories.CourseRepository;
 import com.example.school.services.interfaces.ICourseService;
 import com.example.school.utilities.Verificator;
+import com.example.school.utilities.interfaces.IWriter;
 import com.example.school.viewModels.CourseViewModel;
 
 @Service
@@ -15,6 +16,9 @@ public class CourseServiceImpl implements ICourseService {
 	
 	@Autowired
 	private CourseRepository repository;
+	
+	@Autowired
+	private IWriter writer;
 
 	@Override
 	public Course addCourse(CourseViewModel course) {
@@ -30,7 +34,7 @@ public class CourseServiceImpl implements ICourseService {
 			System.out.println(e.getMessage());
 			return null;
 		} catch (NumberFormatException e) {
-			System.out.println("Honorarium should be an integer number");
+			writer.writeError("Honorarium should be an integer number");
 			return null;
 		}
 		
@@ -38,6 +42,12 @@ public class CourseServiceImpl implements ICourseService {
 		
 		newCourse = repository.save(newCourse);
 		return newCourse;
+	}
+
+	@Override
+	public Course getCourseByName(String courseName) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

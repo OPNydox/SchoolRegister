@@ -13,6 +13,7 @@ import com.example.school.repositories.CourseRepository;
 import com.example.school.repositories.TeacherRepository;
 import com.example.school.services.interfaces.ITeacherService;
 import com.example.school.utilities.Verificator;
+import com.example.school.utilities.interfaces.IWriter;
 import com.example.school.viewModels.TeacherViewModel;
 
 @Service
@@ -22,6 +23,9 @@ public class TeacherServiceImpl implements ITeacherService {
 	
 	@Autowired
 	private CourseRepository courseRepository;
+	
+	@Autowired
+	private IWriter writer;
 
 	@Override
 	public Teacher addTeacher(TeacherViewModel teacherView) {
@@ -40,7 +44,7 @@ public class TeacherServiceImpl implements ITeacherService {
 		try {
 			Verificator.isEmpty(email, "Teacher search email is empty");
 		} catch (ValueException e) {
-			System.out.println(e.getMessage());
+			writer.writeError(e.getMessage());
 			return null;
 		}
 		
@@ -60,7 +64,7 @@ public class TeacherServiceImpl implements ITeacherService {
 			Verificator.isEmpty(teacher, "Teacher object is null");
 			Verificator.isEmpty(course, "Course obect is empty");
 		} catch (ValueException e){
-			System.out.println(e.getMessage());
+			writer.writeError(e.getMessage());
 			return false;
 		}
 		
@@ -80,7 +84,7 @@ public class TeacherServiceImpl implements ITeacherService {
 			Verificator.isEmpty(teacher, "Could not find teacher with email " + teacherEmail);
 			course = courseRepository.findByName(courseName);
 		} catch (ValueException e) {
-			System.out.println(e.getMessage());
+			writer.writeError(e.getMessage());
 			return false;
 		}
 		

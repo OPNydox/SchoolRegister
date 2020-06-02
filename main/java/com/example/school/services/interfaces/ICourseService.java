@@ -6,4 +6,6 @@ import com.example.school.viewModels.CourseViewModel;
 public interface ICourseService {
 	
 	Course addCourse(CourseViewModel course);
+	
+	Course getCourseByName(String courseName);
 }
