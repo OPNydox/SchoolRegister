@@ -1,5 +1,8 @@
 package com.example.school.services.implementations;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.school.database.entities.Course;
@@ -10,7 +13,6 @@ import com.example.school.repositories.PresenceRepository;
 import com.example.school.services.interfaces.ICourseService;
 import com.example.school.services.interfaces.IPresenceService;
 import com.example.school.services.interfaces.IStudentService;
-import com.example.school.servicesImplementations.StudentService;
 import com.example.school.utilities.Verificator;
 import com.example.school.utilities.interfaces.IWriter;
 import com.example.school.viewModels.PresenceViewModel;
@@ -48,8 +50,57 @@ public class PresenceServiceImpl implements IPresenceService{
 			return null;
 		}
 		
+		newPresence.setPresenceClass(presenceCourse);
+		newPresence.setStudent(studentPresence);
+		presenceRepository.save(newPresence);
 		
+		return newPresence;
+	}
+
+	@Override
+	public List<Presence> getPresencesForClassName(String className) {
+		Course resultCourse;
+		List<Presence> result = new ArrayList<Presence>();
 		
+		try {
+			Verificator.isEmpty(className, "Class name is empty");
+			resultCourse = courseService.getCourseByName(className);
+			Verificator.isEmpty(resultCourse, "Could not find a course with the name " + className);
+		} catch (ValueException e) {
+			writer.writeError(e.getMessage());
+			return null;
+		}
+		
+		result = getPresencesForClass(resultCourse);
+		
+		return result;
+	}
+
+	@Override
+	public List<Presence> getPresencesForClass(Course course) {
+		List<Presence> presences = new ArrayList<Presence>();
+		List<Student> studentsInCourse = new ArrayList<Student>();
+		
+		try {
+			Verificator.isEmpty(course, "Course object is empty");
+		} catch (ValueException e) {
+			writer.writeError(e.getMessage());
+		}
+		
+		studentsInCourse = course.getStudents();
+		studentsInCourse.forEach((student) -> presences.addAll(student.getPresences()));
+		return presences;
+	}
+
+	@Override
+	public List<Presence> getPresenceForStudentEmail(String email) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Presence> getPresenceForStudent(Student student) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 	

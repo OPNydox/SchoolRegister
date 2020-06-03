@@ -46,7 +46,13 @@ public class CourseServiceImpl implements ICourseService {
 
 	@Override
 	public Course getCourseByName(String courseName) {
-		// TODO Auto-generated method stub
+		Course result;
+		try {
+			Verificator.isEmpty(courseName, "Course name is empty");
+			result = repository.findByName(courseName);
+		} catch (Exception e) {
+			writer.writeError(e.getMessage());
+		}
 		return null;
 	}
 
