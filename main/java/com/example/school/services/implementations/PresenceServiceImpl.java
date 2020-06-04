@@ -71,13 +71,13 @@ public class PresenceServiceImpl implements IPresenceService{
 			return null;
 		}
 		
-		result = getPresencesForClass(resultCourse);
+		result = getPresencesForCourse(resultCourse);
 		
 		return result;
 	}
 
 	@Override
-	public List<Presence> getPresencesForClass(Course course) {
+	public List<Presence> getPresencesForCourse(Course course) {
 		List<Presence> presences = new ArrayList<Presence>();
 		List<Student> studentsInCourse = new ArrayList<Student>();
 		
@@ -94,14 +94,34 @@ public class PresenceServiceImpl implements IPresenceService{
 
 	@Override
 	public List<Presence> getPresenceForStudentEmail(String email) {
-		// TODO Auto-generated method stub
-		return null;
+		Student foundStudent;
+		List<Presence> result = new ArrayList<Presence>();
+		
+		try {
+			Verificator.isEmpty(email, "Email string is empty");
+			foundStudent = studentService.findStudentByEmail(email);
+			Verificator.isEmpty(foundStudent, "Cound not find a student with the email" + email);
+		} catch (ValueException e) {
+			writer.writeError(e.getMessage());
+			return null;
+		}
+		
+		result = getPresenceForStudent(foundStudent);
+		return result;
 	}
 
 	@Override
 	public List<Presence> getPresenceForStudent(Student student) {
-		// TODO Auto-generated method stub
-		return null;
+		List<Presence> result = new ArrayList<Presence>();
+		
+		try {
+			Verificator.isEmpty(student, "Student object is empty");
+		} catch (ValueException e) {
+			writer.writeError(e.getMessage());
+			return null;
+		}
+		result = student.getPresences();
+		return result;
 	}
 	
 }

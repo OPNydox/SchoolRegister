@@ -38,7 +38,7 @@ public class CourseServiceImpl implements ICourseService {
 			return null;
 		}
 		
-		newCourse = new Course(name, subject, honorarium);
+		newCourse = new Course(subject, name, honorarium);
 		
 		newCourse = repository.save(newCourse);
 		return newCourse;

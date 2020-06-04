@@ -13,7 +13,7 @@ public interface IPresenceService {
 	
 	List<Presence> getPresencesForClassName(String className);
 	
-	List<Presence> getPresencesForClass(Course course);
+	List<Presence> getPresencesForCourse(Course course);
 	
 	List<Presence> getPresenceForStudentEmail(String email);
 	
