@@ -7,6 +7,7 @@ import javax.persistence.MappedSuperclass;
 public class User {
 	private String name;
 	
+	@Column(unique = true)
 	private String email;
 	
 	@Column(length = 60)

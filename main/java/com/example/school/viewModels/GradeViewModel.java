@@ -5,13 +5,16 @@ public class GradeViewModel {
 	private String mark;
 	
 	private String className;
+	
+	private String studentEmail;
 
 	public GradeViewModel() { }
 	
-	public GradeViewModel(String mark, String className) {
+	public GradeViewModel(String mark, String className, String studentEmail) {
 		super();
-		this.mark = mark;
-		this.className = className;
+		this.setMark(mark);
+		this.setClassName(className);
+		this.setStudentEmail(studentEmail);
 	}
 
 	public String getMark() {
@@ -29,4 +32,14 @@ public class GradeViewModel {
 	public void setClassName(String className) {
 		this.className = className;
 	}
+
+	public String getStudentEmail() {
+		return studentEmail;
+	}
+
+	public void setStudentEmail(String studentEmail) {
+		this.studentEmail = studentEmail;
+	}
+	
+	
 }

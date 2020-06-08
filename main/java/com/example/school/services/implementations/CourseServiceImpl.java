@@ -2,6 +2,7 @@ package com.example.school.services.implementations;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.school.database.entities.Course;
 import com.example.school.exceptions.ValueException;
@@ -21,6 +22,7 @@ public class CourseServiceImpl implements ICourseService {
 	private IWriter writer;
 
 	@Override
+	@Transactional
 	public Course addCourse(CourseViewModel course) {
 		Course newCourse;
 		String name;
@@ -46,14 +48,14 @@ public class CourseServiceImpl implements ICourseService {
 
 	@Override
 	public Course getCourseByName(String courseName) {
-		Course result;
+		Course result = new Course();
 		try {
 			Verificator.isEmpty(courseName, "Course name is empty");
 			result = repository.findByName(courseName);
 		} catch (Exception e) {
 			writer.writeError(e.getMessage());
 		}
-		return null;
+		return result;
 	}
 
 }

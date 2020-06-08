@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.example.school.database.entities.Course;
 import com.example.school.database.entities.Presence;
@@ -17,6 +18,7 @@ import com.example.school.utilities.Verificator;
 import com.example.school.utilities.interfaces.IWriter;
 import com.example.school.viewModels.PresenceViewModel;
 
+@Service
 public class PresenceServiceImpl implements IPresenceService{
 
 	@Autowired

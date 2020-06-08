@@ -14,6 +14,6 @@ public interface CourseRepository extends CrudRepository<Course, Long> {
 
 	Course save(Course entity);
 	
-	@Query(nativeQuery = true, value = "SELECT * FROM classes where course_name = '10A'")
-	Course findByName(String course_name);
+	@Query(nativeQuery = true, value = "SELECT * FROM classes where course_name LIKE course_name")
+	Course findByName(@Param("course_name")String course_name);
 }
