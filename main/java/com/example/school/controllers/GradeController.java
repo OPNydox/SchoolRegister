@@ -2,6 +2,7 @@ package com.example.school.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.school.database.entities.Course;
@@ -25,7 +26,7 @@ public class GradeController {
 	@Autowired
 	private IStudentService studentService;
 
-	@RequestMapping(value ="/gradetest")
+	@PostMapping(value ="/gradecreate")
 	public String studentTesting() {
 		GradeViewModel grade = new GradeViewModel();
 		grade.setClassName("10A");
