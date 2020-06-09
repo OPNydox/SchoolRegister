@@ -48,6 +48,7 @@ public class GradeServiceImpl  implements IGradeService {
 			gradeRepository.save(newGrade);
 		} catch ( ValueException e) {
 			writer.writeError(e.getMessage());
+			newGrade.setEmpty();
 		}
 		return newGrade;
 	}

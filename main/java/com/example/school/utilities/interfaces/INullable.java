@@ -1,5 +1,7 @@
 package com.example.school.utilities.interfaces;
 
-public interface Nullable {
+public interface INullable {
 	boolean isNull();
+	
+	void setEmpty();
 }

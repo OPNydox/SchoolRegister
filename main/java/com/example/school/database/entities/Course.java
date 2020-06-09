@@ -12,9 +12,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.data.annotation.Transient;
+
+import com.example.school.utilities.interfaces.INullable;
+
 @Entity
 @Table(name = "classes")
-public class Course {
+public class Course implements INullable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long classId;
@@ -25,6 +29,9 @@ public class Course {
 	private String subject;
 	
 	private int honorarium;
+	
+	@Transient
+	private boolean isEmpty;
 	
 	@ManyToMany(mappedBy = "courses")
 	private List<Student> students;
@@ -103,6 +110,21 @@ public class Course {
 
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
+	}
+
+	@Override
+	public boolean isNull() {
+		if (this.isEmpty || this.getCourseName() == null || this.getSubject() == null) {
+			return false;
+		}
+		
+		return true;
+	}
+
+	@Override
+	public void setEmpty() {
+		this.isEmpty = true;
+		
 	}
 	
 }

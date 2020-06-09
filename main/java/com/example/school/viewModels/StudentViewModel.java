@@ -5,6 +5,8 @@ public class StudentViewModel {
 	
 	private String password;
 	
+	private String email;
+	
 	public StudentViewModel() {}
 
 	public StudentViewModel(String name, String password) {
@@ -27,6 +29,14 @@ public class StudentViewModel {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	
 	

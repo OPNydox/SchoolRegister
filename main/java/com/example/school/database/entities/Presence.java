@@ -9,9 +9,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.springframework.data.annotation.Transient;
+
+import com.example.school.utilities.interfaces.INullable;
+
 @Entity
 @Table(name = "presences")
-public class Presence {
+public class Presence implements INullable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long presenceId;
@@ -24,6 +28,9 @@ public class Presence {
 	@JoinColumn(name = "class_id")
 	private Course presenceClass;
 
+	@Transient
+	private boolean isEmpty;
+	
 	public Presence() {
 		super();
 	}
@@ -57,6 +64,19 @@ public class Presence {
 
 	public void setPresenceClass(Course presenceClass) {
 		this.presenceClass = presenceClass;
+	}
+
+	@Override
+	public boolean isNull() {
+		if (this.isEmpty || this.getStudent() == null || this.getClass() == null) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void setEmpty() {
+		this.isEmpty = true;
 	}
 	
 	

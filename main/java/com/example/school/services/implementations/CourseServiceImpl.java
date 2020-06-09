@@ -24,7 +24,7 @@ public class CourseServiceImpl implements ICourseService {
 	@Override
 	@Transactional
 	public Course addCourse(CourseViewModel course) {
-		Course newCourse;
+		Course newCourse =  new Course();
 		String name;
 		String subject;
 		int honorarium;
@@ -34,10 +34,12 @@ public class CourseServiceImpl implements ICourseService {
 			Verificator.isEmpty(honorarium = Integer.parseInt(course.getHonorarium()), "Nohonorarium found in course");
 		} catch (ValueException e) {
 			System.out.println(e.getMessage());
-			return null;
+			newCourse.setEmpty();
+			return newCourse;
 		} catch (NumberFormatException e) {
 			writer.writeError("Honorarium should be an integer number");
-			return null;
+			newCourse.setEmpty();
+			return newCourse;
 		}
 		
 		newCourse = new Course(subject, name, honorarium);
@@ -49,11 +51,13 @@ public class CourseServiceImpl implements ICourseService {
 	@Override
 	public Course getCourseByName(String courseName) {
 		Course result = new Course();
+		CourseViewModel foundCourse = new CourseViewModel();
 		try {
 			Verificator.isEmpty(courseName, "Course name is empty");
 			result = repository.findByName(courseName);
 		} catch (Exception e) {
 			writer.writeError(e.getMessage());
+			result.setEmpty();
 		}
 		return result;
 	}

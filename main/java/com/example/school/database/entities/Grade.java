@@ -8,15 +8,22 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.springframework.data.annotation.Transient;
+
+import com.example.school.utilities.interfaces.INullable;
+
 @Entity
 @Table(name = "grades")
-public class Grade {
+public class Grade implements INullable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long gradeId;
 	
 	private double mark;
+	
+	@Transient
+	private boolean isEmpty;
 	
 	@ManyToOne
 	@JoinColumn(name = "course_id")
@@ -67,6 +74,20 @@ public class Grade {
 
 	public void setStudent(Student student) {
 		this.student = student;
+	}
+
+	@Override
+	public boolean isNull() {
+		if (this.isEmpty) {
+			return false;
+		}
+		
+		return true;
+	}
+
+	@Override
+	public void setEmpty() {
+		this.isEmpty = true;	
 	}
 	
 	

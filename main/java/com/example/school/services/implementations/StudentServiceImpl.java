@@ -26,12 +26,26 @@ public class StudentServiceImpl implements IStudentService {
 	private IWriter writer;
 
 	@Override
-	public void createStudent(StudentViewModel student) {
-		System.out.println("hello from the backend");
-		System.out.println("The student has a name " + student.getName());
-		System.out.println("The student has a before password " + student.getPassword());
-		System.out.println("Stored password  " + passwordEncoder.encode(student.getPassword()));
+	public Student createStudent(StudentViewModel student) {
+		Student newStudent = new Student();
 		
+		try {
+			Verificator.isEmpty(student.getEmail(), "Student email not found in model");
+			Verificator.isEmpty(student.getName(), "Student name not found in model");
+			Verificator.isEmpty(student.getPassword(), "Student password not found in model");
+		} catch (ValueException e) {
+			writer.writeError(e.getMessage());
+			newStudent.setEmpty();
+			return newStudent;
+		}
+		
+		newStudent.setEmail(student.getEmail());
+		newStudent.setName(student.getName());
+		newStudent.setPassword(passwordEncoder.encode(student.getPassword()));
+		
+		newStudent = repository.save(newStudent);
+		
+		return newStudent;
 	}
 
 	@Override
@@ -43,7 +57,7 @@ public class StudentServiceImpl implements IStudentService {
 			result = repository.findByEmail(email);
 		} catch (ValueException e) {
 			writer.writeError(e.getMessage());
-			return null;
+			result.setEmpty();
 		}
 		return result;
 	}

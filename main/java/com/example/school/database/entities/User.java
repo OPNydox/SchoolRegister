@@ -3,8 +3,12 @@ package com.example.school.database.entities;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 
+import org.springframework.data.annotation.Transient;
+
+import com.example.school.utilities.interfaces.INullable;
+
 @MappedSuperclass
-public class User {
+public class User implements INullable{
 	private String name;
 	
 	@Column(unique = true)
@@ -14,6 +18,9 @@ public class User {
 	private String password;
 	
 	private boolean isStudent;
+	
+	@Transient
+	private boolean isEmpty;
 	
 	public User() { }
 
@@ -55,7 +62,18 @@ public class User {
 	public void setStudent(boolean isStudent) {
 		this.isStudent = isStudent;
 	}
-	
-	
+
+	@Override
+	public boolean isNull() {
+		if (this.isEmpty ||this.getName() == null || this.getEmail() == null) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void setEmpty() {
+		this.isEmpty = true;
+	}
 
 }

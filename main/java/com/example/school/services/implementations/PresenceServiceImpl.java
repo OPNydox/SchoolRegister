@@ -1,6 +1,7 @@
 package com.example.school.services.implementations;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +50,8 @@ public class PresenceServiceImpl implements IPresenceService{
 			Verificator.isEmpty(studentPresence, "No Student found with the email");
 		} catch (ValueException e) {
 			writer.writeError(e.getMessage());
-			return null;
+			newPresence.setEmpty();
+			return newPresence;
 		}
 		
 		newPresence.setPresenceClass(presenceCourse);
@@ -70,7 +72,7 @@ public class PresenceServiceImpl implements IPresenceService{
 			Verificator.isEmpty(resultCourse, "Could not find a course with the name " + className);
 		} catch (ValueException e) {
 			writer.writeError(e.getMessage());
-			return null;
+			return Collections.emptyList();
 		}
 		
 		result = getPresencesForCourse(resultCourse);
@@ -87,6 +89,7 @@ public class PresenceServiceImpl implements IPresenceService{
 			Verificator.isEmpty(course, "Course object is empty");
 		} catch (ValueException e) {
 			writer.writeError(e.getMessage());
+			return Collections.emptyList();
 		}
 		
 		studentsInCourse = course.getStudents();
@@ -105,7 +108,7 @@ public class PresenceServiceImpl implements IPresenceService{
 			Verificator.isEmpty(foundStudent, "Cound not find a student with the email" + email);
 		} catch (ValueException e) {
 			writer.writeError(e.getMessage());
-			return null;
+			return Collections.emptyList();
 		}
 		
 		result = getPresenceForStudent(foundStudent);
@@ -120,7 +123,7 @@ public class PresenceServiceImpl implements IPresenceService{
 			Verificator.isEmpty(student, "Student object is empty");
 		} catch (ValueException e) {
 			writer.writeError(e.getMessage());
-			return null;
+			return Collections.emptyList();
 		}
 		result = student.getPresences();
 		return result;

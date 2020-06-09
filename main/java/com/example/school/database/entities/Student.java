@@ -15,9 +15,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.example.school.utilities.interfaces.INullable;
+
 @Entity
 @Table(name = "students")
-public class Student extends User implements Serializable {
+public class Student extends User implements Serializable, INullable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,9 +37,7 @@ public class Student extends User implements Serializable {
 			joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "studentId"),
 			inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName="classId"))
 	private List<Course> courses;
-
 	
-
 	public Student(String name, String email, String password) {
 		super(name, email, password, true);
 		setGrades(new ArrayList<Grade>());

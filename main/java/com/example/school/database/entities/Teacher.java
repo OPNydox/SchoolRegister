@@ -11,11 +11,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.example.school.utilities.interfaces.INullable;
+
 import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name = "teachers")
-public class Teacher extends User {
+public class Teacher extends User implements INullable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long teacherId;
