@@ -22,6 +22,8 @@ import com.example.school.repositories.UserRepository;
 import com.example.school.services.interfaces.ICourseService;
 import com.example.school.services.interfaces.IStudentService;
 import com.example.school.services.interfaces.ITeacherService;
+import com.example.school.utilities.ControllerHelper;
+import com.example.school.utilities.ReturnResult;
 import com.example.school.viewModels.*;
 
 @RestController
@@ -31,16 +33,46 @@ public class CourseController {
 	private ICourseService courseService;
 	
 	@GetMapping("/coursefind/{name}")
-	public String courseTesting(@PathVariable String name) {
-		Course  thisCourse = courseService.getCourseByName(name);
+	public ReturnResult courseTesting(@PathVariable String name) {
+		ReturnResult result = new ReturnResult();
+		Course foundCourse;
 		
-		System.out.println("Course found with name " + thisCourse.getCourseName() + " subject  " + thisCourse.getSubject());
-		return "course find";
+		if (name == null || name.isEmpty()) {
+			return ControllerHelper.returnError("Name not found");
+		}
+		
+		foundCourse = courseService.getCourseByName(name);
+		
+		if (foundCourse == null || foundCourse.isNull()) {
+			return ControllerHelper.returnError("Could not find course with name " + name);
+		}
+		
+		result.setMessage("Course found");
+		result.setSuccesful(true);
+		result.getData().add(foundCourse);
+		
+		return result;
 	}
 	
 	@PostMapping(value = "/coursecreate", consumes = "application/json", produces = "application/json")
-	public void courseTesting1(@RequestBody CourseViewModel course) {
-		courseService.addCourse(course);
-		//return "course create";
+	public ReturnResult courseCreate(@RequestBody CourseViewModel course) {
+		ReturnResult result = new ReturnResult();
+		Course newCourse;
+		
+		if (course == null) {
+			return ControllerHelper.returnError("Course is empty");
+		}
+		
+		newCourse = courseService.addCourse(course);
+		
+		if (newCourse == null || newCourse.isNull()) {
+			return ControllerHelper.returnError("Course could not be created");
+		}
+		
+		result.setSuccesful(true);
+		result.setMessage("Course created");
+		result.getData().add(newCourse);
+		
+		return result;
 	}
 }

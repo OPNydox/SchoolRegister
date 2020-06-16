@@ -12,6 +12,7 @@ import com.example.school.database.entities.Presence;
 import com.example.school.database.entities.Student;
 import com.example.school.exceptions.ValueException;
 import com.example.school.repositories.PresenceRepository;
+import com.example.school.repositories.StudentRepository;
 import com.example.school.services.interfaces.ICourseService;
 import com.example.school.services.interfaces.IPresenceService;
 import com.example.school.services.interfaces.IStudentService;
@@ -30,6 +31,9 @@ public class PresenceServiceImpl implements IPresenceService{
 	
 	@Autowired
 	private ICourseService courseService;
+	
+	@Autowired
+	private StudentRepository studentRepository;
 	
 	@Autowired
 	private IWriter writer;
@@ -55,6 +59,9 @@ public class PresenceServiceImpl implements IPresenceService{
 		}
 		
 		newPresence.setPresenceClass(presenceCourse);
+		//courseService.saveCourse(presenceCourse);
+		//studentPresence.getPresences().add(newPresence);
+		//studentRepository.save(studentPresence);
 		newPresence.setStudent(studentPresence);
 		presenceRepository.save(newPresence);
 		

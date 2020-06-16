@@ -62,4 +62,10 @@ public class CourseServiceImpl implements ICourseService {
 		return result;
 	}
 
+	@Override
+	public void saveCourse(Course course) {
+		repository.save(course);
+		
+	}
+
 }

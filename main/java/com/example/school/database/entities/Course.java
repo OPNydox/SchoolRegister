@@ -1,5 +1,6 @@
 package com.example.school.database.entities;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +19,7 @@ import com.example.school.utilities.interfaces.INullable;
 
 @Entity
 @Table(name = "classes")
-public class Course implements INullable {
+public class Course implements INullable, Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long classId;
@@ -115,10 +116,10 @@ public class Course implements INullable {
 	@Override
 	public boolean isNull() {
 		if (this.isEmpty || this.getCourseName() == null || this.getSubject() == null) {
-			return false;
+			return true;
 		}
 		
-		return true;
+		return false;
 	}
 
 	@Override

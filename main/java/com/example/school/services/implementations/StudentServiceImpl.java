@@ -53,7 +53,6 @@ public class StudentServiceImpl implements IStudentService {
 		Student result = new Student();
 		try {
 			Verificator.isEmpty(email, "Email is empty");
-			repository.findByEmail(email);
 			result = repository.findByEmail(email);
 		} catch (ValueException e) {
 			writer.writeError(e.getMessage());

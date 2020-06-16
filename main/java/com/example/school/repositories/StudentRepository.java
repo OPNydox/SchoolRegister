@@ -10,7 +10,7 @@ import com.example.school.database.entities.Student;
 @Repository
 public interface StudentRepository extends CrudRepository <Student, Long>{
 	
-	@Query(nativeQuery = true, value = "SELECT * FROM students where email LIKE email")
-	Student findByEmail(@Param("email")String email);
+	@Query(value = "select s from Student s where s.email = :email")
+	Student findByEmail(String email);
 
 }

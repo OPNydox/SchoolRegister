@@ -1,5 +1,7 @@
 package com.example.school.database.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,7 +17,7 @@ import com.example.school.utilities.interfaces.INullable;
 
 @Entity
 @Table(name = "presences")
-public class Presence implements INullable {
+public class Presence implements INullable, Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long presenceId;

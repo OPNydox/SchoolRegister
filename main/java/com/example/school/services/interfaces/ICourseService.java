@@ -8,4 +8,6 @@ public interface ICourseService {
 	Course addCourse(CourseViewModel course);
 	
 	Course getCourseByName(String courseName);
+	
+	void saveCourse(Course course);
 }
