@@ -1,5 +1,7 @@
 package com.example.school.services.implementations;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -60,5 +62,14 @@ public class StudentServiceImpl implements IStudentService {
 		}
 		return result;
 	}
+	
+	@Override
+	public List<Student> findAllStudents() {
+		List<Student> result;
+		
+		result = (List<Student>) repository.findAll();
+		return result;
+	}
+
 
 }
