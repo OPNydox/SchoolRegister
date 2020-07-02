@@ -1,5 +1,8 @@
 package com.example.school.services.implementations;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +18,8 @@ import com.example.school.services.interfaces.ITeacherService;
 import com.example.school.utilities.Verificator;
 import com.example.school.utilities.interfaces.IWriter;
 import com.example.school.viewModels.TeacherViewModel;
+import com.example.school.viewModels.decorators.ModelDecorator;
+import com.example.school.viewModels.decorators.TeacherVMValidator;
 
 @Service
 public class TeacherServiceImpl implements ITeacherService {
@@ -30,6 +35,17 @@ public class TeacherServiceImpl implements ITeacherService {
 	@Override
 	public Teacher addTeacher(TeacherViewModel teacherView) {
 		Teacher newTeacher = new Teacher();
+		ModelDecorator decorator = new ModelDecorator(teacherView);
+		List<String> validationResult = new ArrayList<>();
+		
+		validationResult.addAll(decorator.validateModel(new TeacherVMValidator()));
+		
+		if (!validationResult.isEmpty()) {
+			writer.writeErrors(validationResult);
+			newTeacher.setEmpty();
+			return newTeacher;
+		}
+		
 		newTeacher.setName(teacherView.getName());
 		newTeacher.setEmail(teacherView.getEmail());
 		newTeacher.setPassword(teacherView.getPassword());

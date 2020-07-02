@@ -1,5 +1,6 @@
 package com.example.school.services.implementations;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import com.example.school.utilities.PasswordManager;
 import com.example.school.utilities.Verificator;
 import com.example.school.utilities.interfaces.IWriter;
 import com.example.school.viewModels.StudentViewModel;
+import com.example.school.viewModels.decorators.ModelDecorator;
+import com.example.school.viewModels.decorators.StudentVMValidator;
 
 @Service
 public class StudentServiceImpl implements IStudentService {
@@ -27,17 +30,19 @@ public class StudentServiceImpl implements IStudentService {
 	@Autowired
 	private IWriter writer;
 
+
 	@Override
 	public Student createStudent(StudentViewModel student) {
 		Student newStudent = new Student();
+		List<String> validationResult = new ArrayList<>();
 		
-		try {
-			Verificator.isEmpty(student.getEmail(), "Student email not found in model");
-			Verificator.isEmpty(student.getName(), "Student name not found in model");
-			Verificator.isEmpty(student.getPassword(), "Student password not found in model");
-		} catch (ValueException e) {
-			writer.writeError(e.getMessage());
+		ModelDecorator decorator = new ModelDecorator(student); 
+		
+		validationResult.addAll(decorator.validateModel(new StudentVMValidator()));
+		
+		if (!validationResult.isEmpty()) {
 			newStudent.setEmpty();
+			writer.writeErrors(validationResult);
 			return newStudent;
 		}
 		

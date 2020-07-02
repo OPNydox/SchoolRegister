@@ -1,6 +1,6 @@
 package com.example.school.viewModels;
 
-public class TeacherViewModel {
+public class TeacherViewModel extends ViewModel{
 	private String name;
 	
 	private String email;
@@ -48,6 +48,18 @@ public class TeacherViewModel {
 
 	public void setSalary(String salary) {
 		this.salary = salary;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean setEmpty() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	

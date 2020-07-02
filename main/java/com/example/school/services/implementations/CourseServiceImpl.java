@@ -1,5 +1,8 @@
 package com.example.school.services.implementations;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +14,8 @@ import com.example.school.services.interfaces.ICourseService;
 import com.example.school.utilities.Verificator;
 import com.example.school.utilities.interfaces.IWriter;
 import com.example.school.viewModels.CourseViewModel;
+import com.example.school.viewModels.decorators.CourseVMValidator;
+import com.example.school.viewModels.decorators.ModelDecorator;
 
 @Service
 public class CourseServiceImpl implements ICourseService {
@@ -25,24 +30,19 @@ public class CourseServiceImpl implements ICourseService {
 	@Transactional
 	public Course addCourse(CourseViewModel course) {
 		Course newCourse =  new Course();
-		String name;
-		String subject;
-		int honorarium;
-		try {
-			Verificator.isEmpty(name = course.getName(), "No name found in course"); 
-			Verificator.isEmpty(subject = course.getSubject(), "No subject found in course");
-			Verificator.isEmpty(honorarium = Integer.parseInt(course.getHonorarium()), "Nohonorarium found in course");
-		} catch (ValueException e) {
-			System.out.println(e.getMessage());
+		List<String> validationErrors = new ArrayList<>();
+		
+		ModelDecorator decorator = new ModelDecorator(course);
+		
+		validationErrors.addAll(decorator.validateModel(new CourseVMValidator()));
+		
+		if (!validationErrors.isEmpty()) {
 			newCourse.setEmpty();
-			return newCourse;
-		} catch (NumberFormatException e) {
-			writer.writeError("Honorarium should be an integer number");
-			newCourse.setEmpty();
+			writer.writeErrors(validationErrors);
 			return newCourse;
 		}
 		
-		newCourse = new Course(subject, name, honorarium);
+		newCourse = new Course(course.getSubject(), course.getName(), Integer.parseInt(course.getHonorarium()));
 		
 		newCourse = repository.save(newCourse);
 		return newCourse;

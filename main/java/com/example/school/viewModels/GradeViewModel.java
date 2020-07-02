@@ -1,6 +1,6 @@
 package com.example.school.viewModels;
 
-public class GradeViewModel {
+public class GradeViewModel extends ViewModel {
 	
 	private String mark;
 	
@@ -39,6 +39,18 @@ public class GradeViewModel {
 
 	public void setStudentEmail(String studentEmail) {
 		this.studentEmail = studentEmail;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean setEmpty() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	

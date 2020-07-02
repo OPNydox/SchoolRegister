@@ -1,6 +1,6 @@
 package com.example.school.viewModels;
 
-public class CourseViewModel {
+public class CourseViewModel extends ViewModel{
 
 	private String name;
 	
@@ -39,6 +39,18 @@ public class CourseViewModel {
 
 	public void setHonorarium(String honorarium) {
 		this.honorarium = honorarium;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean setEmpty() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 	
 	

@@ -11,8 +11,11 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.springframework.stereotype.Component;
+
 import com.example.school.utilities.emaiModule.interfaces.IEmailSender;
 
+@Component
 public class EmailSender implements IEmailSender {
 
 	@Override
@@ -25,27 +28,24 @@ public class EmailSender implements IEmailSender {
 		
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 		      protected PasswordAuthentication getPasswordAuthentication() {
-		         return new PasswordAuthentication("tutorialspoint@gmail.com", "<your password>");
+		         return new PasswordAuthentication("sendemailtest9@gmail.com", "NoH*`!!3h=DD");
 		      }
 		   });
 		   Message msg = new MimeMessage(session);
-		   msg.setFrom(new InternetAddress("tutorialspoint@gmail.com", false));
+		   msg.setFrom(new InternetAddress("cbotushanov@gmail.com", false));
 
-		   msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("tutorialspoint@gmail.com"));
-		   msg.setSubject("Tutorials point email");
-		   msg.setContent("Tutorials point email", "text/html");
+		   msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse("cbotushanov@gmail.com"));
+		   msg.setSubject("students");
+		   msg.setContent("Student limit reached", "text/html");
 		   msg.setSentDate(new Date());
 
-		   MimeBodyPart messageBodyPart = new MimeBodyPart();
-		   messageBodyPart.setContent("Tutorials point email", "text/html");
+		   //MimeBodyPart messageBodyPart = new MimeBodyPart();
+		   //messageBodyPart.setContent("Tutorials point email", "text/html");
 
-		   Multipart multipart = new MimeMultipart();
-		   multipart.addBodyPart(messageBodyPart);
-		   MimeBodyPart attachPart = new MimeBodyPart();
+		   //Multipart multipart = new MimeMultipart();
+		   //multipart.addBodyPart(messageBodyPart);
 
-		   attachPart.attachFile("/var/tmp/image19.png");
-		   multipart.addBodyPart(attachPart);
-		   msg.setContent(multipart);
+		   //msg.setContent(multipart);
 		   Transport.send(msg); 
 	}
 
