@@ -18,7 +18,7 @@ import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name = "teachers")
-public class Teacher extends User implements INullable {
+public class Teacher extends User  {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long teacherId;

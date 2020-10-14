@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.school.database.entities.AuthGroup;
+import com.example.school.database.entities.Course;
 import com.example.school.database.entities.Student;
 import com.example.school.database.entities.User;
 
@@ -38,6 +39,14 @@ public class MyUserPrincipal implements UserDetails {
 		});
 		
 		return grantedAuthorities;
+	}
+
+	public boolean isUserStudent () {
+		return this.user.isStudent();
+	}
+
+	public User getUser() {
+		return this.user;
 	}
 
 	@Override
@@ -74,5 +83,6 @@ public class MyUserPrincipal implements UserDetails {
 		// TODO Auto-generated method stub
 		return true;
 	}
+	
 
 }

@@ -2,23 +2,20 @@ package com.example.school.viewModels.decorators;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.example.school.viewModels.StudentViewModel;
 import com.example.school.viewModels.ViewModel;
-import com.example.school.viewModels.decorators.dataValidators.EmailValidator;
-import com.example.school.viewModels.decorators.dataValidators.StringValidator;
 
-public class StudentVMValidator implements VMValidator {
+
+@Component
+public class StudentVMValidator extends VMValidatorBase {
 	
 	private StudentViewModel student;
 	
-	@Autowired
-	private EmailValidator emailValidator;
-	
-	@Autowired
-	private StringValidator stringValidator;
+	public StudentVMValidator () {
+		super();
+	}
 
 	@Override
 	public List<String> validate() {
@@ -32,7 +29,7 @@ public class StudentVMValidator implements VMValidator {
 		result.addAll(emailValidator.validateEmail(student.getEmail()));
 		result.addAll(stringValidator.validateString(student.getName(), "The student's name", 50));
 		result.addAll(stringValidator.validateString(student.getPassword(), "Student's passowrd", null));
-		return null;
+		return result;
 	}
 
 	@Override

@@ -46,18 +46,28 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) {
+		System.out.println("Hello from this config");
 		auth.authenticationProvider(authenticationProvider());
 	}
 
     @Override
     protected void configure (HttpSecurity http) throws Exception{
-    	http.csrf().disable().authorizeRequests()
+    	System.out.println("configure motherfuckers");
+    	http
+    	.authorizeRequests().antMatchers("/register").permitAll().and().authorizeRequests()
+    	.anyRequest().authenticated()
+    	.and()
+    	.formLogin().loginPage("/login")
+    	.defaultSuccessUrl("/profile").permitAll();
+    	
+    	
+    	/*http.csrf().disable().authorizeRequests()
           .antMatchers("/admin/**").hasRole("ADMIN")
 		  .anyRequest().permitAll().and().formLogin().loginProcessingUrl("/login")
 		  .usernameParameter("email").passwordParameter("password")
 		  .defaultSuccessUrl("/profile").failureUrl("/login")
 		  .and().logout().and().exceptionHandling()
-		  .accessDeniedPage("/error/403");
+		  .accessDeniedPage("/error/403");*/
  
 	
 //	    	 http.authorizeRequests().antMatchers("/admin/**").hasRole("ADMIN")

@@ -1,9 +1,9 @@
 package com.example.school.controllers;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +26,7 @@ import com.example.school.utilities.ControllerHelper;
 import com.example.school.utilities.ReturnResult;
 import com.example.school.viewModels.*;
 
-@RestController
+@Controller
 public class CourseController {
 	
 	@Autowired
@@ -54,7 +54,7 @@ public class CourseController {
 		return result;
 	}
 	
-	@PostMapping(value = "/coursecreate", consumes = "application/json", produces = "application/json")
+	@PostMapping(value = "/coursecreate")
 	public ReturnResult courseCreate(@RequestBody CourseViewModel course) {
 		ReturnResult result = new ReturnResult();
 		Course newCourse;
@@ -74,5 +74,21 @@ public class CourseController {
 		result.getData().add(newCourse);
 		
 		return result;
+	}
+
+	@GetMapping(value = "/courses")
+	public String getAllCourses(Model model) {
+		Iterable<CourseViewModel> courses;
+
+		courses = courseService.getAllCourses();
+
+		model.addAttribute("courses", courses);
+
+		return "allCourses";
+	}
+
+	@GetMapping(value = "/course")
+	public String getCoursePage(Model model) {
+		return "course";
 	}
 }

@@ -2,11 +2,15 @@ package com.example.school.viewModels;
 
 public class CourseViewModel extends ViewModel{
 
+	private String id;
+
 	private String name;
-	
+
 	private String subject;
-	
+
 	private String honorarium;
+
+	private boolean isEmpty;
 
 	public CourseViewModel() {}
 	
@@ -41,16 +45,23 @@ public class CourseViewModel extends ViewModel{
 		this.honorarium = honorarium;
 	}
 
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.isEmpty;
 	}
 
 	@Override
 	public boolean setEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		this.isEmpty = true;
+		return true;
 	}
 	
 	

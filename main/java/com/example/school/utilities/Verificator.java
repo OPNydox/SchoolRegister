@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import com.example.school.exceptions.ValueException;
 import com.example.school.exceptions.ValueNotFoundException;
+import com.example.school.utilities.interfaces.INullable;
 
 public class Verificator {
 	private static final String EMAIL_REGEX = "@.*?\\.";
@@ -24,5 +25,13 @@ public class Verificator {
 			throw new ValueNotFoundException(errMessage);
 		}
 		return;
+	}
+	
+	public static boolean isEmpty(INullable objectToCheck) {
+		if (objectToCheck == null || objectToCheck.isNull()) {
+			return true;
+		}
+		
+		return false;
 	}
 }

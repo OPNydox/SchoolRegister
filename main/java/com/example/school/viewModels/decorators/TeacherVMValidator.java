@@ -3,25 +3,15 @@ package com.example.school.viewModels.decorators;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.example.school.viewModels.TeacherViewModel;
 import com.example.school.viewModels.ViewModel;
-import com.example.school.viewModels.decorators.dataValidators.EmailValidator;
-import com.example.school.viewModels.decorators.dataValidators.StringNumberValidator;
-import com.example.school.viewModels.decorators.dataValidators.StringValidator;
 
-public class TeacherVMValidator implements VMValidator {
+public class TeacherVMValidator extends VMValidatorBase {
 	private TeacherViewModel teacher;
 	
-	@Autowired
-	private EmailValidator emailValidator;
-	
-	@Autowired
-	private StringValidator stringValidator;
-	
-	@Autowired
-	private StringNumberValidator numberValidator;
+	public TeacherVMValidator() {
+		super();
+	}
 
 	@Override
 	public List<String> validate() {
